@@ -16,13 +16,13 @@ MATLAB 2019a
 
 ### Installing
 
-#### Set Simulink parameters
-In Simulink go to Simulation > Model Configuration Paramteres > Solver 
+ * #### Set Simulink parameters
+    In Simulink go to Simulation > Model Configuration Paramteres > Solver 
 
-  * set solver selction > type to Fixed-step
-  * set tasking and sample time option > Allow tasks to execute concurrently on target to TRUE
+    * set solver selction > type to Fixed-step
+    * set tasking and sample time option > Allow tasks to execute concurrently on target to TRUE
 
-#### Run script with parameters
+ * #### Run script with parameters
 
 
 
