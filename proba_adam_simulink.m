@@ -68,6 +68,8 @@ B_continous_time(1+5, 1+ 3) = 1.0 / Tgm_;
 B_continous_time(1+7, 1+ 0) = -mass_ * (1.0 - 4.0 * mi_) * zm_ * w_mm_^ 2 / Iyy_;
 B_continous_time(1+7, 1+ 1) = -mass_ * (1.0 - 4.0 * mi_) * zm_ * w_mm_^ 2 / Iyy_;
 
+
+
 % B_continous_time = [0        0        0        0;
 %     391.426        0        0        0;
 %     0        0        0        0;
@@ -105,11 +107,50 @@ B_dis =[ 0.5729,         0 ,        0 ,        0;
     -0.0037,   -0.0037,    0.0000 ,  -0.0000;
     -0.0347,   -0.0347,    0.0005 ,  -0.0005];
 
+% pomocni = A_continous_time(:,5);
+% A_continous_time(:,5) = A_continous_time(:,6);
+% A_continous_time(:,6) = pomocni;
+% 
+% pomocni = A_continous_time(5,:);
+% A_continous_time(5,:) = A_continous_time(6,:);
+% A_continous_time(6,:) = pomocni;
+% 
+% 
+% pomocni = B_continous_time(:,3);
+% B_continous_time(:,3) = B_continous_time(:,4);
+% B_continous_time(:,4) = pomocni;
+% 
+% pomocni = B_continous_time(3,:);
+% B_continous_time(3,:) = B_continous_time(4,:);
+% B_continous_time(4,:) = pomocni;
+% 
+% 
+% pomocni = A_dis(:,5);
+% A_dis(:,5) = A_dis(:,6);
+% A_dis(:,6) = pomocni;
+% 
+% 
+% 
+% pomocni = A_dis(5,:);
+% A_dis(5,:) = A_dis(6,:);
+% A_dis(6,:) = pomocni;
+% 
+% 
+% pomocni = B_dis(:,3);
+% B_dis(:,3) = B_dis(:,4);
+% B_dis(:,4) = pomocni;
+% 
+% pomocni = B_dis(3,:);
+% B_dis(3,:) = B_dis(4,:);
+% B_dis(4,:) = pomocni;
 
-kSamplingTime = 0.04;
+
+
+
+kSamplingTime = 0.012;
 A_dis_calc = expm(kSamplingTime*A_continous_time);
 
-count_integral_A = 100;
+count_integral_A = 10000;
 integral_exp_A = 0*A_dis_calc;
 
 %approximation of integration
@@ -120,5 +161,29 @@ end
 
 
 B_dis_calc = integral_exp_A * B_continous_time;
+scale_OV_inv = inv(diag([0.58, 4.0, 0.58, 4.0, 800, 800, 0.5236, 0.671578600000000]));
+R =diag([0.67670, 0.67670, 0.13534000, 0.13534000]);
+R_delta = diag([0.738879858135067, 0.738879858135067, 0.007388798581351,0.007388798581351]);
+Q = diag([ 0.135340000000000,0.002706800000000,  0.1353400, 0.002706800, 0.002706800, 0.002706800,70.7068000, 9.676700]);
 
+load theta.mat
+t1 = 3.225806451612903
+
+
+t2 =2.413976501908747
+
+
+t3 = 3.225806451612903
+
+
+t4 =   0
+
+
+t5 = 3.225806451612903
+
+
+t6 = 2.413976501908747
+
+
+t7 = 3.225806451612903
 % sim testiranje_bloka

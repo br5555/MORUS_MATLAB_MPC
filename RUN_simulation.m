@@ -29,12 +29,12 @@ odabir = 1;
 
 
 
-digits(50)
 kGravity = 9.80665;
 mass_ = 1.0;
 mass_quad_ = 30.8;
 M_ = mass_quad_ + 4 * mass_;
 mi_ = mass_ / mass_quad_;
+mi_ = mass_ / M_;
 cd_ = 1.5;
 zr_ = 0.2;
 beta_ = 0;
@@ -141,6 +141,9 @@ pop =1.0e+08*1e-3 *[   0.029264220000000   9.536478352183382   0.059554929227648
 %%after GA params(new cost functio only angle)
 pop= 1.0e+5*[0.009139900000000   8.688512684489472   0.026654892581534   5.190527904499262   0.181184564396795   0.256981570562153 0.011325292272676   9.465709843738091   0.011458832966775];
 
+
+pop = 1e7*[1.739810177954929                   0   2.504563962151606                   0                   0                   0  0   1.443954028222922                   0];
+
 R =diag([pop(1),pop(1),pop(2),pop(2)]);
 R_delta = diag([pop(3),pop(3),pop(4),pop(4)]);
 Q = diag([pop(5),pop(6),pop(5),pop(6), pop(7),pop(7),pop(8),pop(9)]);
@@ -149,28 +152,75 @@ sim_time = 200.0;
 %%old PARAMS 
 R =diag([0.67670, 0.67670, 0.13534000, 0.13534000]);
 R_delta = diag([0.738879858135067, 0.738879858135067, 0.007388798581351,0.007388798581351]);
-Q = diag([ 0.135340000000000,0.002706800000000,  0.1353400, 0.002706800, 0.002706800, 0.002706800,8300.7068000, 9.676700]);
+Q = diag([ 0.135340000000000,0.002706800000000,  0.1353400, 0.002706800, 0.002706800, 0.002706800,2500.7068000, 9.676700]);
 
 
-t1 = 4.1118
+
+R_YAW =diag([0,0,0,0]);
+R_delta_YAW = diag([0,0,0,0]);
+Q_YAW = diag([0.146606962130350,0.146606962130350,0.146606962130350,0.146606962130350,36.6517405325875,2.50697905242899]);
+
+R_Z =diag([0.13534000, 0.13534000, 0.13534000, 0.13534000]);
+R_delta_Z = diag([0.007388798581351,0.007388798581351, 0.007388798581351,0.007388798581351]);
+Q_Z = diag([ 0.002706800, 0.002706800, 0.002706800, 0.002706800,2500.7068000, 9.676700]);
+
+t1 = 3.7182 ;
 
 
-t2 = 6.6297
+t2 = 7.1656;
 
 
-t3 = 4.1118
+t3 =3.7182;
 
 
-t4 = 0
+t4 =0
 
 
-t5 =4.1118
+t5 = 3.7182;
 
 
-t6 = 6.6297
+t6 = 7.1656;
 
 
-t7 = 4.1118
+t7 = 3.7182;
+
+kSamplingTimeYAW =  0.589;
+
+A_continous_time = zeros(6,6);
+A_continous_time(1, 1) = -1.0 / Tgm_;
+A_continous_time(2, 2) = -1.0 / Tgm_;
+A_continous_time(3, 3) = -1.0 / Tgm_;
+A_continous_time(4, 4) = -1.0 / Tgm_;
+A_continous_time(5, 6) =1.0 ;
+A_continous_time(6, :)  =[0.513756355684363;
+  -0.513756355684363;
+   0.513756355684363;
+  -0.513756355684363;
+                   0;
+                   0] * 1e-3;
+
+
+B_continous_time = zeros(6,4);
+B_continous_time(1, 1) = 1.0 / Tgm_;
+B_continous_time(2, 2) = 1.0 / Tgm_;
+B_continous_time(3, 3) = 1.0 / Tgm_;
+B_continous_time(4, 4) = 1.0 / Tgm_;
+
+
+A_YAW = expm(kSamplingTimeYAW*A_continous_time);
+
+count_integral_A = 10000;
+integral_exp_A = 0*A_YAW;
+
+%approximation of integration
+for i = 1: count_integral_A
+    integral_exp_A = (integral_exp_A + expm((A_continous_time * kSamplingTimeYAW * i / count_integral_A)) ...
+        * kSamplingTimeYAW / count_integral_A);
+end
+
+
+B_YAW = integral_exp_A * B_continous_time;
+
 
 %%
 % syms s

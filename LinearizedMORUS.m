@@ -147,4 +147,4 @@ DOT_DOT_ROLL = DOT_W_X + cos(ROLL)*DOT_ROLL*tan(PITCH)*W_Y + sin(ROLL)*(1/((cos(
 DOT_DOT_PITCH = -sin(ROLL)*DOT_ROLL*W_Y + cos(ROLL)*DOT_W_Y - cos(ROLL)*DOT_ROLL*W_Z-sin(ROLL)*DOT_W_Z;
 
 DOT_DOT_YAW = ((cos(ROLL)*DOT_ROLL*cos(PITCH) + sin(ROLL)*sin(PITCH)*DOT_PITCH)/((cos(PITCH))^2)) *W_Y + (sin(ROLL)/cos(PITCH))*DOT_W_Y + ...
-    ((-sin(ROLL)*DOT_ROLL*cos(PITCH) + cos(ROLL)*sin(PITCH)*DOT_PITCH)/((cos(PITCH))^2)) *W_Z + (cos(ROLL)/cos(PITCH))*DOT_W_Y;
+    ((-sin(ROLL)*DOT_ROLL*cos(PITCH) + cos(ROLL)*sin(PITCH)*DOT_PITCH)/((cos(PITCH))^2)) *W_Z + (cos(ROLL)/cos(PITCH))*DOT_W_Z;
